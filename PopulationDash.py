@@ -8,15 +8,15 @@ import plotly.express as px
 import numpy as np
 from dash.dependencies import Input,Output
 from dash_bootstrap_templates import load_figure_template
-import dash_table
-import utils.api_helpers as ah
+import graph_helpers as gh
+from layout import app_layout
+import graph_tab 
+import data_tab
 
-GBADSLOGOB = "https://i0.wp.com/animalhealthmetrics.org/wp-content/uploads/2019/10/GBADs-LOGO-Black-sm.png"
-load_figure_template('LUX')
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.themes.LUX])
 
-plot_config = {'displayModeBar': True,
-          'displaylogo': False}
+# Import layout from layout file 
+app.layout = app_layout
 
 ###--------------Read in data-----------------------------------
 
@@ -59,127 +59,6 @@ def prep_df(df, country, species, start, end):
     return(df)
 
 
-def create_bar_plot(df, country, species):
-
-    if type(country) == str:
-        color_by = 'species'
-        title = 'Population of Livestock in %s' % country
-    else: 
-        color_by = 'country'
-        title = 'Population of %s' % species
-
-    fig = px.bar(df, x='year', y='population', color=color_by,
-                 color_discrete_sequence=px.colors.qualitative.Plotly, title = title)
-
-    fig.update_xaxes(
-        
-        ticklabelmode="period",
-        dtick = 1)
-
-    return(fig)
-
-def create_scatter_plot(df, country, species): 
-
-    if type(country) == str:
-        color_by = 'species'
-        title = 'Population of Livestock in %s' % country
-    else: 
-        color_by = 'country'
-        title = 'Population of %s' % species
-
-    fig = px.line(df, x='year', y='population', color=color_by,
-                 color_discrete_sequence=px.colors.qualitative.Plotly, markers=True, title = title)
-
-    fig.update_xaxes(
-        
-        ticklabelmode="period",
-        dtick = 1)
-    
-    return(fig)
-
-###-------------Build dropdowns------------------------------------
-
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": "8rem",
-    "left": 0,
-    "bottom": 0,
-    "width": "24rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-    "overflow": "scroll"
-}
-
-sidebar = html.Div(
-    [
-        html.H4("Options"),
-        html.Hr(),
-        dbc.Nav(
-            [  
-                html.H6("Compare by:"),
-                dcc.RadioItems(
-                ['Species', 'Country'], 'Species', inline=True, id='choice'
-                ),
-                html.H6(" "),
-                html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset', value='eurostat'),
-                html.H6(" "),
-                html.H6("Country:"),
-                dcc.Dropdown(id = 'country', value='Spain'),
-                html.H6(" "),
-                html.H6("Species:"),
-                dcc.Dropdown(id = 'species', value = ['Bovines', 'Asses and Mules', 'Goats']),
-                html.H6(" "),
-                html.H6("Start year:"),
-                dcc.Dropdown(id = 'start year', value = 1990),
-                html.H6(" "),
-                html.H6("End year:"),
-                dcc.Dropdown(id = 'end year', value = 2001),
-                html.H6(" "),
-                html.H6("Graph type:"),
-                dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter']),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    style=SIDEBAR_STYLE,
-)
-
-title = html.Div(
-            dbc.Row(
-            dbc.Col(children = [
-                html.Img(src=GBADSLOGOB, className="header-logo"),
-                html.H2('Livestock Population')   
-            ]
-            )
-            ),  
-            style={"padding": "1rem 1rem"},
-        )
-
-graph = dbc.Col(
-            dcc.Graph(id = 'graph1',config = plot_config),
-            width = 8,
-            style = {'margin-left':'15px', 'margin-top':'7px', 'margin-right':'15px'}
-            )
-
-
-###--------------Build the layout------------------------------------
-
-app = dash.Dash(external_stylesheets=[dbc.themes.LUX])
-
-app.layout = html.Div(children = [
-                title,
-                dbc.Row(
-                    [
-                    dbc.Col(sidebar),
-                    graph
-                    ]
-                )
-    ]
-)
-
-
 ###--------------Call backs------------------------------------
 
 # Initialize dataset dropdown
@@ -192,6 +71,19 @@ def dataset_drop(name):
     dataset_options = ['eurostat','faostat','faotier1','woah','unfccc']
 
     return(dataset_options)
+
+@app.callback(
+        dash.dependencies.Output('page-content', 'children'),
+        dash.dependencies.Output('plot','disabled'),
+        dash.dependencies.Input('tabs','active_tab')
+)
+def switch_tab(at):
+    if at == "tab-0":
+        return graph_tab.tab1_content, False
+    elif at == "tab-1": 
+        return data_tab.table, True
+    return("Metadata here")
+    # return html.P("This shouldn't ever be displayed...")
 
 # Initialize all dropdowns and options
 @app.callback(
@@ -235,13 +127,10 @@ def update_year_dropdown(data, species, country):
     # Determine types to filter df 
     if type(country) == str: 
         df = df[df['country'] == country]
-    else: 
-        df = df[df['country'].isin(country)]
-    
-    if type(species) == str: 
-        df = df[df['species'] == species]
-    else: 
         df = df[df['species'].isin(species)]
+    else: 
+        df = df[df['species'] == species]
+        df = df[df['country'].isin(country)]
 
     df = df.sort_values(by=['year'])
     years = df['year'].unique()
@@ -256,19 +145,37 @@ def update_year_dropdown(data, species, country):
     dash.dependencies.Input('start year', 'value'),
     dash.dependencies.Input('end year', 'value'),
     dash.dependencies.Input('dataset','value'),
-    dash.dependencies.Input('plot','value')
-)
-def update_graph(country, species, start, end, data, plot):
+    dash.dependencies.Input('plot','value'))
+def update_graph(country, species, start, end, data, plot, ):
 
     df = get_df(data)
     df = prep_df(df, country, species, start, end)
 
     if plot == 'stacked bar':
-        fig = create_bar_plot(df, country, species)
+        fig = gh.create_bar_plot(df, country, species)
+    elif plot == 'scatter':
+        fig = gh.create_scatter_plot(df, country, species)
     else:
-        fig = create_scatter_plot(df, country, species)
+        print('map here')
 
     return(fig)
+
+# Update data table 
+@app.callback(
+    dash.dependencies.Output('datatable','data'),
+    dash.dependencies.Output('datatable','columns'),
+    dash.dependencies.Input('dataset','value'),
+    dash.dependencies.Input('country','value'), 
+    dash.dependencies.Input('species','value'),
+    dash.dependencies.Input('start year', 'value'),
+    dash.dependencies.Input('end year', 'value'),
+    )
+def update_table(data, country, species, start, end):
+
+    df = get_df(data)
+    df = prep_df(df, country, species, start, end)
+    return df.to_dict('records'), [{"name": i, "id": i} for i in df.columns]
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
