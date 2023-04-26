@@ -17,6 +17,7 @@ The purpose of this dashboard is to visualize livestock population data from:
 
 ### File structure 
 
+```
 ├─requirements.txt
 ├─index.py
 ├─utils/
@@ -43,6 +44,7 @@ The purpose of this dashboard is to visualize livestock population data from:
   ├─m_unfccc.csv
   ├─world_map_110m.geojson
   └─eurostat.csv
+```
 
 ### Tabs 
 
