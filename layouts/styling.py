@@ -16,12 +16,24 @@ SIDEBAR_STYLE = {
 
 CONTENT_STYLE = {
     "top":"8rem",
-    "margin-left": "25rem",
+    "margin-left": "20rem",
     "margin-right": "8rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
     "overflow": "scroll"
 }
+
+MAP_STYLE = {
+    "top":"8rem",
+    "margin-left": "20rem",
+    "margin-right": "8rem",
+    "bottom": "2rem",
+    "padding": "7rem 2rem 2rem",
+    "overflow": "scroll"
+}
+
+plot_config = {'displayModeBar': True,
+          'displaylogo': False}
 
 sidebar = html.Div(
     [
@@ -70,10 +82,10 @@ sidebar_map = html.Div(
                 dcc.Dropdown(id = 'dataset', value='faostat'),
                 html.H6(" "),
                 html.H6("Species:"),
-                dcc.Dropdown(id = 'species', value = 'Asses', multi=False),
+                dcc.Dropdown(id = 'species-map', value = 'Cattle', multi=False),
                 html.H6(" "),
                 html.H6("Year:"),
-                dcc.Dropdown(id = 'year', value = 1990),
+                dcc.Dropdown(id = 'year-map', value = 1990),
             ],
             vertical=True,
             pills=True,

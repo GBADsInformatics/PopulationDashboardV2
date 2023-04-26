@@ -151,22 +151,6 @@ def update_year_dropdown(data, species, country):
 
     return years, years
 
-# Update year option on map tab
-@app.callback(
-        Output('year','options'),
-        Input('dataset','value'),
-        Input('species','value'),
-        Input('country','value')
-)
-def update_year_map(data, species, country): 
-
-    df = get_df(data)
-    df = df[df['country'].isin(country)]
-    df = df[df['species'] == species]
-    df = df.sort_values(by=['year'])
-    years = df['year'].unique()
-    return(years)
-
 # Display metadata 
 @app.callback(
     Output('metadata-table','data'),
@@ -198,8 +182,6 @@ def update_graph(country, species, start, end, data, plot, ):
         fig = graph_tab.create_bar_plot(df, country, species)
     elif plot == 'scatter':
         fig = graph_tab.create_scatter_plot(df, country, species)
-    else:
-        print('map here')
 
     return(fig)
 
@@ -219,6 +201,44 @@ def update_table(data, country, species, start, end):
     df = prep_df(df, country, species, start, end)
     return df.to_dict('records'), [{"name": i, "id": i} for i in df.columns]
 
+# Update map
+# Update year option on map tab
+@app.callback(
+    Output('species-map','options'),
+    Input('dataset','value'),
+)
+def update_species_map(data): 
+
+    df = get_df(data)
+    species = df['species'].unique()
+    print(species)
+    return(species)
+
+@app.callback(
+        Output('year-map','options'),
+        Input('dataset','value'),
+        Input('species-map','value')
+)
+def update_year_map(data, species): 
+
+    df = get_df(data)
+    df = df.loc[df['species'] == species]
+    years = df['year'].unique()
+    df = df.sort_values(by=['year'])
+    return(years)
+
+@app.callback(
+    Output('map','figure'),
+    Input('dataset','value'),
+    Input('species-map','value'),
+    Input('year-map', 'value'),
+    )
+def update_map(data, species, year):
+
+    df = get_df(data)
+    fig = map_tab.create_map(df, species, year, data)
+
+    return(fig)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

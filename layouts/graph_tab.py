@@ -48,10 +48,7 @@ def create_scatter_plot(df, country, species):
     
     return(fig)
 
-plot_config = {'displayModeBar': True,
-          'displaylogo': False}
-
-graph = dcc.Graph(id = 'graph1', config = plot_config)
+graph = dcc.Graph(id = 'graph1', config = styling.plot_config)
 
 content = dbc.Row(children=
             [
