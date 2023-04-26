@@ -8,7 +8,7 @@ import numpy as np
 from dash.dependencies import Input,Output
 from dash_bootstrap_templates import load_figure_template
 from dash import dash_table
-# from layouts import styling 
+from layouts import styling 
 import json
 
 # def create_map(df, species, year):
