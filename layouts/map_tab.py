@@ -11,16 +11,7 @@ from dash import dash_table
 from layouts import styling 
 import json
 
-def create_map(df, species, year, dataset):
-
-    world_map_file_path = "data/world_map_110m.geojson"
-
-    with open(world_map_file_path) as file:
-        world_map_json = json.load(file)
-
-    iso_code_file_path = "data/FAOSTAT_mappings.csv"
-    iso_code_df = pd.read_csv(iso_code_file_path)
-    merged_df = pd.merge(df, iso_code_df, how='inner', left_on='country', right_on='Short name', left_index=False, right_index=False)
+def create_map(merged_df, species, year, dataset, world_map):
 
     # Filter by species 
     merged_df = merged_df.loc[merged_df['year'] == year]
@@ -31,7 +22,7 @@ def create_map(df, species, year, dataset):
     title = 'Population of %s in %s by Country <br><sup>Datasource: %s</sup>' % (species, year, dataset)
 
     fig = px.choropleth_mapbox(merged_df, 
-        geojson=world_map_json,
+        geojson=world_map,
         locations='ISO3',
         color='population',
         range_color=(min_val,max_val),

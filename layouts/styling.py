@@ -62,7 +62,7 @@ sidebar = html.Div(
                 dcc.Dropdown(id = 'end year', value = 2001),
                 html.H6(" "),
                 html.H6("Graph type:"),
-                dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter']),
+                dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter line']),
             ],
             vertical=True,
             pills=True,

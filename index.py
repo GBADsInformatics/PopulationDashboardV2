@@ -6,6 +6,7 @@ import dash_table
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
+import json
 
 from app import app
 from layouts import layout, data_tab, graph_tab, metadata_tab, map_tab
@@ -17,6 +18,13 @@ faostat = pd.read_csv('data/faostat.csv')
 faotier1 = pd.read_csv('data/faotier1.csv')
 woah = pd.read_csv('data/oie.csv')
 unfccc = pd.read_csv('data/unfccc.csv')
+
+world_map_file_path = "data/world_map_110m.geojson"
+with open(world_map_file_path) as file:
+    world_map_json = json.load(file)
+
+iso_code_file_path = "data/FAOSTAT_mappings.csv"
+iso_code_df = pd.read_csv(iso_code_file_path)
 
 def get_df(choice): 
 
@@ -104,11 +112,9 @@ def update_species_dd(country, data):
         print(f"User has selected no country options: {country}")
 
     elif type(country) == list and len(country) > 1:
-        print(f"User has selected multiple country options: {country}")
         df = df[df['country'].isin(country)]
 
     elif type(country) == list and len(country) == 1: 
-        print(f"User has selected a single country option: {country}")
         df = df[df['country'] == country]
     
     species_options = df['species'].unique().tolist()
@@ -180,7 +186,7 @@ def update_graph(country, species, start, end, data, plot, ):
 
     if plot == 'stacked bar':
         fig = graph_tab.create_bar_plot(df, country, species)
-    elif plot == 'scatter':
+    elif plot == 'scatter line':
         fig = graph_tab.create_scatter_plot(df, country, species)
 
     return(fig)
@@ -236,7 +242,8 @@ def update_year_map(data, species):
 def update_map(data, species, year):
 
     df = get_df(data)
-    fig = map_tab.create_map(df, species, year, data)
+    merged_df = pd.merge(df, iso_code_df, how='inner', left_on='country', right_on='Short name', left_index=False, right_index=False)
+    fig = map_tab.create_map(merged_df, species, year, data, world_map_json)
 
     return(fig)
 
