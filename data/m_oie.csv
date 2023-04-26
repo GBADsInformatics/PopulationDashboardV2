@@ -1,3 +1,4 @@
+1,2
 About,"The Global Burden of Animal Disease Informatics Metadata provides information about how data can be accessed via the GBADs API, as well as other relevant information about the data. All metadata presented here pertains to the data after it was collected by GBADs (i.e. publication date on the GBADs API). This page provides a summary of metadata in a user-friendly format. To download the full metadata for this dataset select the ""download as json-ld"" button at the top of this page. More information about the original data set can be found via the World Organization for Animal Health (WOAH) WAHIS platform: [https://wahis.woah.org/](https://wahis.woah.org/)"
 Name,World Organization for Animal Health (WOAH) Livestock Population
 Identifier,[http://gbadske.org:9000/dataportal/](http://gbadske.org:9000/dataportal/)

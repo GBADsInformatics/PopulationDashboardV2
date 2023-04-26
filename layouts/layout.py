@@ -7,7 +7,7 @@ import plotly.express as px
 import numpy as np
 from dash.dependencies import Input,Output
 from dash_bootstrap_templates import load_figure_template
-import graph_helpers as gh
+from app import app
 
 load_figure_template('LUX')
 
@@ -38,41 +38,7 @@ CONTENT_STYLE = {
 }
 
 ###-------------Components------------------------------------
-sidebar = html.Div(
-    [
-        html.H4("Options"),
-        html.Hr(),
-        dbc.Nav(
-            [  
-                html.H6("Select multiple:", id='choice-title'),
-                dcc.RadioItems(
-                ['Species', 'Countries'], 'Species', inline=True, id='choice'
-                ),
-                html.H6(" "),
-                html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset', value='eurostat'),
-                html.H6(" "),
-                html.H6("Country:"),
-                dcc.Dropdown(id = 'country', value='Spain'),
-                html.H6(" "),
-                html.H6("Species:"),
-                dcc.Dropdown(id = 'species', value = ['Bovines', 'Asses and Mules', 'Goats']),
-                html.H6(" "),
-                html.H6("Start year:"),
-                dcc.Dropdown(id = 'start year', value = 1990),
-                html.H6(" "),
-                html.H6("End year:"),
-                dcc.Dropdown(id = 'end year', value = 2001),
-                html.H6(" "),
-                html.H6("Graph type:"),
-                dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter','map']),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    style=SIDEBAR_STYLE,
-)
+
 
 title = html.Div([
                     html.Img(src=GBADSLOGOB, className="header-logo"),
@@ -87,7 +53,7 @@ tabs = html.Div([
         dbc.Tabs(
             [
                 dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
-                #dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
+                dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
             ],
@@ -95,9 +61,6 @@ tabs = html.Div([
 ]
 )
 
-content = html.Div(dcc.Loading(type='default'),
-                   id="page-content", 
-                   style=CONTENT_STYLE)
 ###--------------Build the layout------------------------------------
 
 app_layout = html.Div(
@@ -108,14 +71,7 @@ app_layout = html.Div(
             dbc.Col(tabs)
         ]
         ),
-        dbc.Row(
-            [
-            sidebar,
-            dbc.Col(content)
-            ],
-            id='body-content'
-        )
-    ]
-
+        html.Div(id='tabs-content',style=CONTENT_STYLE)
+        ]
 )
 

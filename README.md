@@ -10,4 +10,8 @@ The purpose of this dashboard is to visualize livestock population data from:
 
 ## Running the app
 
+* Ensure you have requirements.txt installed 
+* Run python index.py 
+
+
 
