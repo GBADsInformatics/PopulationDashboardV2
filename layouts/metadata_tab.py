@@ -2,7 +2,7 @@ import dash_bootstrap_components as dbc
 from dash import html
 import dash_core_components as dcc
 from dash import dash_table
-from layouts.styling import SIDEBAR_STYLE
+from layouts.styling import SIDEBAR_STYLE, CONTENT_STYLE
 import pandas as pd
 
 def get_metadata_df(choice): 
@@ -58,6 +58,6 @@ sidebar_metadata = html.Div(
 metadata_content = dbc.Row(
             [
             sidebar_metadata,
-            dbc.Col(table)
+            dbc.Col(table, style = CONTENT_STYLE)
             ]
 )
