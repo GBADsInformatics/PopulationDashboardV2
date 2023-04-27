@@ -27,7 +27,7 @@ def create_map(merged_df, species, year, dataset, world_map):
         color='population',
         range_color=(min_val,max_val),
         hover_data=['country', 'population'],
-        featureidkey='properties.ISO_A3_EH',
+        featureidkey='properties.ISO3',
         color_continuous_scale='magma_r',
         center={'lat':19, 'lon':11},
         mapbox_style='carto-positron',

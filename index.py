@@ -20,12 +20,12 @@ faotier1 = pd.read_csv('data/faotier1.csv')
 woah = pd.read_csv('data/oie.csv')
 unfccc = pd.read_csv('data/unfccc.csv')
 
-world_map_file_path = "data/world_map_110m.geojson"
-with open(world_map_file_path) as file:
-    world_map_json = json.load(file)
+# world_map_file_path = "data/countries.geojson"
+# with open(world_map_file_path) as file:
+#     world_map_json = json.load(file)
 
-iso_code_file_path = "data/FAOSTAT_mappings.csv"
-iso_code_df = pd.read_csv(iso_code_file_path)
+# iso_code_file_path = "data/FAOSTAT_mappings.csv"
+# iso_code_df = pd.read_csv(iso_code_file_path)
 
 def get_df(choice): 
 
@@ -64,11 +64,11 @@ app.layout = layout.app_layout
 def render_content(tab):
     if tab == 'tab-0':
         return graph_tab.content
+    # elif tab == 'tab-1':
+    #     return map_tab.content
     elif tab == 'tab-1':
-        return map_tab.content
-    elif tab == 'tab-2':
        return data_tab.content
-    elif tab == 'tab-3':
+    elif tab == 'tab-2':
         return metadata_tab.metadata_content
 
 # Organize options of selecting multiple
