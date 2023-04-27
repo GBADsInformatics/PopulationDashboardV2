@@ -22,7 +22,7 @@ table = html.Div([
 
 content = dbc.Row(children=
             [
-            styling.sidebar,
+            styling.sidebar_download,
             dbc.Col(table)
             ],
             style = styling.CONTENT_STYLE

@@ -35,6 +35,39 @@ MAP_STYLE = {
 plot_config = {'displayModeBar': True,
           'displaylogo': False}
 
+sidebar_download = html.Div(
+    [
+        html.H4("Options"),
+        html.Hr(),
+        dbc.Nav(
+            [  
+                html.H6("Select multiple:", id='choice-title'),
+                dcc.RadioItems(
+                ['Species', 'Countries'], 'Species', inline=True, id='choice'
+                ),
+                html.H6(" "),
+                html.H6("Dataset:"),
+                dcc.Dropdown(id = 'dataset', value='faostat'),
+                html.H6(" "),
+                html.H6("Country:"),
+                dcc.Dropdown(id = 'country', value='Spain'),
+                html.H6(" "),
+                html.H6("Species:"),
+                dcc.Dropdown(id = 'species', value = ['Asses', 'Cattle']),
+                html.H6(" "),
+                html.H6("Start year:"),
+                dcc.Dropdown(id = 'start year', value = 1990),
+                html.H6(" "),
+                html.H6("End year:"),
+                dcc.Dropdown(id = 'end year', value = 2001)
+            ],
+            vertical=True,
+            pills=True,
+        ),
+    ],
+    style=SIDEBAR_STYLE,
+)
+
 sidebar = html.Div(
     [
         html.H4("Options"),

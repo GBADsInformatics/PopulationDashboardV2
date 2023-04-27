@@ -57,7 +57,7 @@ tabs = html.Div([
                 dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
             ],
-        id='tabs')
+        id='tabs', style={"position":"fixed"})
 ]
 )
 
