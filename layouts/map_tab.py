@@ -21,7 +21,7 @@ def create_map(merged_df, dataset, species, year):
     fig = px.choropleth(merged_df, 
         locations='ISO3',
         color='population',
-        range_color=(min_val,max_val),
+        range_color=(0,max_val),
         hover_data=['country', 'population'],
         color_continuous_scale='magma_r',
         center={'lat':19, 'lon':11},

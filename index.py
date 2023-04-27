@@ -232,7 +232,11 @@ def update_map(data, species, countries, year):
     df = get_df(data)
     merged_df = df.loc[df['year'] == year]
     merged_df = merged_df.loc[merged_df['species'] == species]
-    merged_df = merged_df.loc[merged_df['country'].isin(countries)]
+
+    if type(countries) == str:
+        merged_df = merged_df.loc[merged_df['country'] == countries]
+    else: 
+        merged_df = merged_df.loc[merged_df['country'].isin(countries)]
 
     fig = map_tab.create_map(merged_df, data, species, year)
 
