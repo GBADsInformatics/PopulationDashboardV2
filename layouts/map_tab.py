@@ -30,7 +30,6 @@ def create_map(merged_df, dataset, species, year):
     fig.update_layout(
         title_text = title
     )
-    fig.update_geos(fitbounds="locations", visible=True)
 
     return(fig)
 
