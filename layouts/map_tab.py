@@ -38,6 +38,6 @@ map = dcc.Graph(id = 'map', config = styling.plot_config)
 content = dbc.Row(children=
             [
             styling.sidebar_map,
-            dbc.Col(map, style=styling.MAP_STYLE)
+            dbc.Col(map, style=styling.CONTENT_STYLE)
             ]
         )
