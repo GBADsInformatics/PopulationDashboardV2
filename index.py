@@ -20,13 +20,6 @@ faotier1 = pd.read_csv('data/faotier1.csv')
 woah = pd.read_csv('data/oie.csv')
 unfccc = pd.read_csv('data/unfccc.csv')
 
-# world_map_file_path = "data/countries.geojson"
-# with open(world_map_file_path) as file:
-#     world_map_json = json.load(file)
-
-# iso_code_file_path = "data/FAOSTAT_mappings.csv"
-# iso_code_df = pd.read_csv(iso_code_file_path)
-
 def get_df(choice): 
 
     if choice == 'eurostat': 
@@ -64,11 +57,11 @@ app.layout = layout.app_layout
 def render_content(tab):
     if tab == 'tab-0':
         return graph_tab.content
-    # elif tab == 'tab-1':
-    #     return map_tab.content
     elif tab == 'tab-1':
-       return data_tab.content
+        return map_tab.content
     elif tab == 'tab-2':
+       return data_tab.content
+    elif tab == 'tab-3':
         return metadata_tab.metadata_content
 
 # Organize options of selecting multiple
@@ -212,39 +205,36 @@ def update_table(data, country, species, start, end):
 # Update year option on map tab
 @app.callback(
     Output('species-map','options'),
+    Output('country-map','options'),
+    Output('year-map','options'),
     Input('dataset','value'),
 )
 def update_species_map(data): 
 
     df = get_df(data)
+    
+    country = df['country'].unique()
     species = df['species'].unique()
-    print(species)
-    return(species)
-
-@app.callback(
-        Output('year-map','options'),
-        Input('dataset','value'),
-        Input('species-map','value')
-)
-def update_year_map(data, species): 
-
-    df = get_df(data)
-    df = df.loc[df['species'] == species]
-    years = df['year'].unique()
     df = df.sort_values(by=['year'])
-    return(years)
+    year = df['year'].unique()
+
+    return(species, country, year)
 
 @app.callback(
     Output('map','figure'),
     Input('dataset','value'),
     Input('species-map','value'),
+    Input('country-map','value'),
     Input('year-map', 'value'),
     )
-def update_map(data, species, year):
+def update_map(data, species, countries, year):
 
     df = get_df(data)
-    merged_df = pd.merge(df, iso_code_df, how='inner', left_on='country', right_on='Short name', left_index=False, right_index=False)
-    fig = map_tab.create_map(merged_df, species, year, data, world_map_json)
+    merged_df = df.loc[df['year'] == year]
+    merged_df = merged_df.loc[merged_df['species'] == species]
+    merged_df = merged_df.loc[merged_df['country'].isin(countries)]
+
+    fig = map_tab.create_map(merged_df, data, species, year)
 
     return(fig)
 

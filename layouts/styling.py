@@ -16,7 +16,7 @@ SIDEBAR_STYLE = {
 
 CONTENT_STYLE = {
     "top":"8rem",
-    "margin-left": "20rem",
+    "margin-left": "25rem",
     "margin-right": "8rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
@@ -25,7 +25,7 @@ CONTENT_STYLE = {
 
 MAP_STYLE = {
     "top":"8rem",
-    "margin-left": "20rem",
+    "margin-left": "24rem",
     "margin-right": "8rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
@@ -80,6 +80,9 @@ sidebar_map = html.Div(
                 html.H6(" "),
                 html.H6("Dataset:"),
                 dcc.Dropdown(id = 'dataset', value='faostat'),
+                html.H6(" "),
+                html.H6("Country:"),
+                dcc.Dropdown(id = 'country-map', value = 'Canada', multi=True),
                 html.H6(" "),
                 html.H6("Species:"),
                 dcc.Dropdown(id = 'species-map', value = 'Cattle', multi=False),

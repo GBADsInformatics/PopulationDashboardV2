@@ -54,6 +54,7 @@ content = dbc.Row(children=
             [
             styling.sidebar,
             dbc.Col(graph)
-            ]
+            ],
+            style=styling.CONTENT_STYLE
         )
 

@@ -24,5 +24,6 @@ content = dbc.Row(children=
             [
             styling.sidebar,
             dbc.Col(table)
-            ]
+            ],
+            style = styling.CONTENT_STYLE
         )

@@ -53,7 +53,7 @@ tabs = html.Div([
         dbc.Tabs(
             [
                 dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
-                # dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
+                dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
             ],
@@ -71,7 +71,7 @@ app_layout = html.Div(
             dbc.Col(tabs)
         ]
         ),
-        html.Div(id='tabs-content',style=CONTENT_STYLE)
+        html.Div(id='tabs-content')
         ]
 )
 
