@@ -15,7 +15,7 @@ SIDEBAR_STYLE = {
 }
 
 CONTENT_STYLE = {
-    "top":"5rem",
+    "top":"8rem",
     "margin-left": "20rem",
     "margin-right": "7rem",
     "bottom": "2rem",
@@ -30,7 +30,7 @@ MAP_STYLE = {
     "margin-right": "7rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
-    "overflow": "scroll"
+    "overflow": "scroll",
 }
 
 plot_config = {'displayModeBar': True,

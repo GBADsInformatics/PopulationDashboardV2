@@ -50,6 +50,7 @@ title = html.Div([
 tabs = html.Div([
     
     html.H1(" "),
+    html.H2(" "),
         dbc.Tabs(
             [
                 dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
@@ -57,7 +58,7 @@ tabs = html.Div([
                 dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
                 dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
             ],
-        id='tabs', style={"position":"fixed"})
+        id='tabs', style={"padding": "1rem 1rem", "position":"fixed"})
 ]
 )
 
