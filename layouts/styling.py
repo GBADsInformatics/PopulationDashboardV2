@@ -15,12 +15,13 @@ SIDEBAR_STYLE = {
 }
 
 CONTENT_STYLE = {
-    "top":"8rem",
+    "top":"5rem",
     "margin-left": "20rem",
     "margin-right": "7rem",
     "bottom": "2rem",
-    "padding": "7rem 2rem 2rem",
-    "overflow": "scroll"
+    "padding": "5rem 2rem 2rem",
+    "overflow": "scroll",
+    "position": "fixed"
 }
 
 MAP_STYLE = {
@@ -47,7 +48,7 @@ sidebar_download = html.Div(
                 ),
                 html.H6(" "),
                 html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset'),
+                dcc.Dropdown(id = 'dataset', value = 'faostat'),
                 html.H6(" "),
                 html.H6("Country:"),
                 dcc.Dropdown(id = 'country'),

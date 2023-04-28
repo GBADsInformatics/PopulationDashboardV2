@@ -71,7 +71,7 @@ app_layout = html.Div(
             dbc.Col(tabs)
         ]
         ),
-        html.Div(id='tabs-content')
+        dbc.Row(children = [html.Div(id='tabs-content')])
         ]
 )
 

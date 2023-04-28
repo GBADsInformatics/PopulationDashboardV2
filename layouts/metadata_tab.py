@@ -58,7 +58,6 @@ sidebar_metadata = html.Div(
 metadata_content = dbc.Row(
             [
             sidebar_metadata,
-            dbc.Col(table)
-            ],
-            style = CONTENT_STYLE
+            dbc.Col(table, style = CONTENT_STYLE)
+            ]
 )
