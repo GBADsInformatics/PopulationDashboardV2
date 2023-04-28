@@ -11,6 +11,7 @@ from dash import dash_table
 from layouts import styling 
 import json
 
+# Potentially switch this to leaflet https://dash-leaflet.herokuapp.com/
 
 my_color_scale = [[0.0, '#4c5c73'], [0.1, '#5D6C81'], [0.2, '#6F7C8F'], [0.3, '#818C9D'], [0.4, '#939DAB'],
                   [0.5, '#A5ADB9'], [0.6, '#B7BDC7'], [0.7, '#C9CED5'], [0.8, '#DBDEE3'], [0.9, '#EDEEF1'],
@@ -50,6 +51,8 @@ map = dcc.Graph(id = 'map', config = styling.plot_config)
 content = dbc.Row(children=
             [
             styling.sidebar_map,
-            dbc.Col(map)
-            ], style = styling.CONTENT_STYLE
+            dcc.Loading(id = "loading-icon", 
+                children=[
+                dbc.Col(map)])
+            ], style = styling.CONTENT_STYLE_GRAPHS
         )

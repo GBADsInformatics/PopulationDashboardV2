@@ -14,13 +14,22 @@ SIDEBAR_STYLE = {
     "overflow": "scroll"
 }
 
-CONTENT_STYLE = {
+CONTENT_STYLE_TABLES = {
     "top":"8rem",
     "margin-left": "20rem",
     "margin-right": "7rem",
     "bottom": "2rem",
     "padding": "5rem 2rem 2rem",
     "overflow": "scroll",
+    "position": "fixed"
+}
+
+CONTENT_STYLE_GRAPHS = {
+    "top":"8rem",
+    "margin-left": "20rem",
+    "margin-right": "7rem",
+    "bottom": "2rem",
+    "padding": "5rem 2rem 2rem",
     "position": "fixed"
 }
 
