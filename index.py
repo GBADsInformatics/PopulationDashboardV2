@@ -81,15 +81,20 @@ def update_multiples(at, choice):
 # Update country
 @app.callback(
     Output('country','options'),
-    Input('dataset','value')
+    Output('country','value'),
+    Input('dataset','value'),
+    Input('country','value')
 )
-def update_country_dd(data):
+def update_country_dd(data, country_value):
 
     df = get_df(data)
     
     country_options = df['country'].unique().tolist()
 
-    return(country_options) 
+    if country_value == None: 
+        country_value = 'Canada'
+
+    return(country_options, country_value) 
 
 # Update species 
 @app.callback(
@@ -102,14 +107,16 @@ def update_species_dd(country, data):
     # Get dataset 
     df = get_df(data)
 
-    if country is None or len(country) < 1:
+    # Set default 
+    if country == str:
         print(f"User has selected no country options: {country}")
 
     elif type(country) == list and len(country) > 1:
         df = df[df['country'].isin(country)]
 
-    elif type(country) == list and len(country) == 1: 
-        df = df[df['country'] == country]
+    elif type(country) == list: 
+        df = df.loc[df['country'] == country]
+        print(df)
     
     species_options = df['species'].unique().tolist()
 

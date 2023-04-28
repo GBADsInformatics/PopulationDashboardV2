@@ -11,6 +11,11 @@ from dash import dash_table
 from layouts import styling 
 import json
 
+
+my_color_scale = [[0.0, '#4c5c73'], [0.1, '#5D6C81'], [0.2, '#6F7C8F'], [0.3, '#818C9D'], [0.4, '#939DAB'],
+                  [0.5, '#A5ADB9'], [0.6, '#B7BDC7'], [0.7, '#C9CED5'], [0.8, '#DBDEE3'], [0.9, '#EDEEF1'],
+                  [1.0, '#FFFFFF']]
+
 def create_map(merged_df, dataset, species, year):
 
     max_val = merged_df['population'].max()
@@ -23,12 +28,19 @@ def create_map(merged_df, dataset, species, year):
         color='population',
         range_color=(0,max_val),
         hover_data=['country', 'population'],
-        color_continuous_scale='magma_r',
+        color_continuous_scale='sunset',
         center={'lat':19, 'lon':11},
     )
 
+    fig.update_geos(
+        visible=False, resolution=50,
+        showcountries=True, countrycolor="Black"
+    )
+
     fig.update_layout(
-        title_text = title
+        title_text = title,
+        legend=dict(orientation='h',
+        yanchor="bottom")
     )
 
     return(fig)

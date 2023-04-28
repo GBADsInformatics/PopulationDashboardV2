@@ -8,7 +8,7 @@ SIDEBAR_STYLE = {
     "top": "8rem",
     "left": 0,
     "bottom": "2rem",
-    "width": "24rem",
+    "width": "21rem",
     "padding": "2rem 2rem 2rem",
     "background-color": "#f8f9fa",
     "overflow": "scroll"
@@ -16,8 +16,8 @@ SIDEBAR_STYLE = {
 
 CONTENT_STYLE = {
     "top":"8rem",
-    "margin-left": "25rem",
-    "margin-right": "8rem",
+    "margin-left": "20rem",
+    "margin-right": "7rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
     "overflow": "scroll"
@@ -25,8 +25,8 @@ CONTENT_STYLE = {
 
 MAP_STYLE = {
     "top":"8rem",
-    "margin-left": "24rem",
-    "margin-right": "8rem",
+    "margin-left": "20rem",
+    "margin-right": "7rem",
     "bottom": "2rem",
     "padding": "7rem 2rem 2rem",
     "overflow": "scroll"
@@ -47,19 +47,19 @@ sidebar_download = html.Div(
                 ),
                 html.H6(" "),
                 html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset', value='faostat'),
+                dcc.Dropdown(id = 'dataset'),
                 html.H6(" "),
                 html.H6("Country:"),
-                dcc.Dropdown(id = 'country', value='Spain'),
+                dcc.Dropdown(id = 'country'),
                 html.H6(" "),
                 html.H6("Species:"),
-                dcc.Dropdown(id = 'species', value = ['Asses', 'Cattle']),
+                dcc.Dropdown(id = 'species'),
                 html.H6(" "),
                 html.H6("Start year:"),
-                dcc.Dropdown(id = 'start year', value = 1990),
+                dcc.Dropdown(id = 'start year'),
                 html.H6(" "),
                 html.H6("End year:"),
-                dcc.Dropdown(id = 'end year', value = 2001)
+                dcc.Dropdown(id = 'end year')
             ],
             vertical=True,
             pills=True,
@@ -83,10 +83,10 @@ sidebar = html.Div(
                 dcc.Dropdown(id = 'dataset', value='faostat'),
                 html.H6(" "),
                 html.H6("Country:"),
-                dcc.Dropdown(id = 'country', value='Spain'),
+                dcc.Dropdown(id = 'country'),
                 html.H6(" "),
                 html.H6("Species:"),
-                dcc.Dropdown(id = 'species', value = ['Asses', 'Cattle']),
+                dcc.Dropdown(id = 'species', value = ['Cattle']),
                 html.H6(" "),
                 html.H6("Start year:"),
                 dcc.Dropdown(id = 'start year', value = 1990),
