@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
 import json
+from dash.exceptions import PreventUpdate
 
 from app import app
 from layouts import layout, data_tab, graph_tab, metadata_tab, map_tab
@@ -180,7 +181,10 @@ def get_metadata(data, at):
     Input('end year', 'value'),
     Input('dataset','value'),
     Input('plot','value'))
-def update_graph(country, species, start, end, data, plot, ):
+def update_graph(country, species, start, end, data, plot):
+
+    if type(country) == list and type(species) == list:
+        raise PreventUpdate
 
     df = get_df(data)
     df = prep_df(df, country, species, start, end)
