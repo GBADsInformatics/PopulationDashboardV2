@@ -44,7 +44,7 @@ sidebar_metadata = html.Div(
         dbc.Nav(
             [  
                 html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset', value='faostat'),
+                dcc.Dropdown(id = 'dataset',value ='faostat', persistence=True, persistence_type='session'),
                 html.H6(" ")
             ],
             vertical=True,
