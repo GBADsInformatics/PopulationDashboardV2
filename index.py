@@ -79,49 +79,52 @@ def update_multiples(at, choice):
     else: 
         return(True, False)
       
-# Update country
+# Update all dropdowns
 @app.callback(
     Output('country','options'),
-    Output('country','value'),
+    Output('species','options'),
+    Output('start year','options'),
+    Output('end year','options'),
     Input('dataset','value'),
-    Input('country','value')
 )
-def update_country_dd(data, country_value):
+def update_all_dd(data):
 
     df = get_df(data)
     
     country_options = df['country'].unique().tolist()
-
-    if country_value == None: 
-        country_value = 'Canada'
-
-    return(country_options, country_value) 
-
-# Update species 
-@app.callback(
-    Output('species','options'),
-    [Input('country', 'value'),
-     Input('dataset','value')]
-)
-def update_species_dd(country, data):
-
-    # Get dataset 
-    df = get_df(data)
-
-    # Set default 
-    if country == str:
-        print(f"User has selected no country options: {country}")
-
-    elif type(country) == list and len(country) > 1:
-        df = df[df['country'].isin(country)]
-
-    elif type(country) == list: 
-        df = df.loc[df['country'] == country]
-        print(df)
     
     species_options = df['species'].unique().tolist()
 
-    return(species_options) 
+    df = df.sort_values(by=['year'])
+    
+    years = df['year'].unique()
+
+    return(country_options, species_options, years, years) 
+
+# Update species 
+# @app.callback(
+#     Output('species','options'),
+#     [Input('country', 'value'),
+#      Input('dataset','value')]
+# )
+# def update_species_dd(country, data):
+
+    # Get dataset 
+    # df = get_df(data)
+
+    # # Set default 
+    # if country == str:
+    #     print(f"User has selected no country options: {country}")
+
+    # elif type(country) == list and len(country) > 1:
+    #     df = df[df['country'].isin(country)]
+
+    # elif type(country) == list: 
+    #     df = df.loc[df['country'] == country]
+    
+    # species_options = df['species'].unique().tolist()
+
+    # return(species_options) 
 
 # Initialize dataset dropdown
 @app.callback(
@@ -135,29 +138,27 @@ def dataset_drop(at):
     return(dataset_options)
 
 # Update year options 
-@app.callback(
-    Output('start year','options'),
-    Output('end year','options'),
-    Input('dataset','value'),
-    Input('species','value'),
-    Input('country', 'value')
-)
-def update_year_dropdown(data, species, country): 
+# @app.callback(
+#     Output('start year','options'),
+#     Output('end year','options'),
+#     Input('dataset','value'),
+# )
+# def update_year_dropdown(data): 
 
-    df = get_df(data)
+#     df = get_df(data)
 
     # Determine types to filter df 
-    if type(country) == str: 
-        df = df[df['country'] == country]
-        df = df[df['species'].isin(species)]
-    else: 
-        df = df[df['species'] == species]
-        df = df[df['country'].isin(country)]
+    # if type(country) == str: 
+    #     df = df[df['country'] == country]
+    #     df = df[df['species'].isin(species)]
+    # else: 
+    #     df = df[df['species'] == species]
+    #     df = df[df['country'].isin(country)]
 
-    df = df.sort_values(by=['year'])
-    years = df['year'].unique()
+    # df = df.sort_values(by=['year'])
+    # years = df['year'].unique()
 
-    return years, years
+    # return years, years
 
 # Display metadata 
 @app.callback(
