@@ -53,23 +53,23 @@ sidebar_download = html.Div(
             [  
                 html.H6("Select multiple:", id='choice-title'),
                 dcc.RadioItems(
-                ['Species', 'Countries'], inline=True, id='choice', persistence_type='session', persistence=True
+                ['Species', 'Countries'], 'Species', inline=True, id='choice', persistence_type='session', persistence=True
                 ),
                 html.H6(" "),
                 html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset', persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'dataset', value='faostat', persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Country:"),
-                dcc.Dropdown(id = 'country', persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'country', value = 'Canada', persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Species:"),
-                dcc.Dropdown(id = 'species', persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'species', value = ['Cattle'], persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Start year:"),
-                dcc.Dropdown(id = 'start year', persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'start year', value = 1996, persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("End year:"),
-                dcc.Dropdown(id = 'end year', persistence_type='session', persistence=True)
+                dcc.Dropdown(id = 'end year', value = 2020, persistence_type='session', persistence=True)
             ],
             vertical=True,
             pills=True,
@@ -102,7 +102,7 @@ sidebar = html.Div(
                 dcc.Dropdown(id = 'start year', value = 1996, persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("End year:"),
-                dcc.Dropdown(id = 'end year', value = 2021, persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'end year', value = 2020, persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Graph type:"),
                 dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter line'], persistence_type='session', persistence=True),
