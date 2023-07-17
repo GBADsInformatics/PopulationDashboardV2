@@ -9,11 +9,11 @@ jobs:
     uses: GBADsInformatics/DevopsWorkflows/.github/workflows/docker.yml@main
     secrets: inherit
     with:
-      IMAGE_NAME: populationv2-dash
+      IMAGE_NAME: population-dash
 
   aws:
     needs: docker
     uses: GBADsInformatics/DevopsWorkflows/.github/workflows/aws.yml@main
     secrets: inherit
     with:
-      SERVICE_NAME: population-v2-dash-service
+      SERVICE_NAME: Population-dash-service
