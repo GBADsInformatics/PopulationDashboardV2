@@ -1,6 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import html
-import dash_core_components as dcc
+from dash import dcc
 from dash import dash_table
 
 SIDEBAR_STYLE = {
@@ -38,8 +38,8 @@ MAP_STYLE = {
     "margin-left": "20rem",
     "margin-right": "7rem",
     "bottom": "2rem",
-    "padding": "7rem 2rem 2rem",
-    "overflow": "scroll",
+    "padding": "5rem 2rem 2rem",
+    "position": "fixed"
 }
 
 plot_config = {'displayModeBar': True,
