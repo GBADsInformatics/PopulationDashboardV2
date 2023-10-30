@@ -50,15 +50,29 @@ def create_scatter_plot(df, country, species):
 
 graph = dcc.Graph(id = 'graph1', config = styling.plot_config)
 
-content = dbc.Row(children=
-            [
-            styling.sidebar,
-            dcc.Loading(id = 'loading-icon',
-                        children=[
-                        dbc.Col(graph)
-                        ]
-                        )
-            ],
-            style=styling.CONTENT_STYLE_GRAPHS
-        )
+        # dbc.Row(
+        #     [
+        #         dbc.Col(sidebar, width=3, style=SIDEBAR_STYLE),
+        #         dbc.Col(content, width=9)
+        #     ]
+        #     )
+
+content = dbc.Row(
+    [
+        dbc.Col(styling.sidebar, width = 3),
+        dbc.Col(graph, width=9, style=styling.CONTENT_STYLE_GRAPHS)
+    ]
+)
+
+# content = dbc.Row(children=
+#             [
+#             styling.sidebar,
+#             dcc.Loading(id = 'loading-icon',
+#                         children=[
+#                         dbc.Col(graph)
+#                         ]
+#                         )
+#             ],
+#             style=styling.CONTENT_STYLE_GRAPHS
+#         )
 

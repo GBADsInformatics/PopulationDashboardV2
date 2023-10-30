@@ -40,11 +40,11 @@ CONTENT_STYLE = {
 ###-------------Components------------------------------------
 
 
-title = html.Div([
+title = html.Div(
+                [
                     html.Img(src=GBADSLOGOB, className="header-logo"),
-                    html.H2('Livestock Population')
-                ],
-                style={"padding": "1rem 1rem", "position":"fixed"}
+                    html.H1('Livestock Population')
+                ]
                 )
 
 tabs = html.Div([
@@ -64,16 +64,33 @@ tabs = html.Div([
 
 ###--------------Build the layout------------------------------------
 
-app_layout = html.Div(
-
-    children = [
-        dbc.Row(children = [
-            dbc.Col(title),
-            dbc.Col(tabs)
-        ]
+app_layout = dbc.Container(
+    [
+        dbc.Row(
+            [
+                dbc.Col(title, width=6),
+                dbc.Col(tabs, width='auto')
+            ]
         ),
-        dbc.Row(children = [html.Div(id='tabs-content')]),
-        dcc.Store(id='store')
-        ]
-)
+        dbc.Row(
+            [
+                dbc.Col(html.Div(id='tabs-content'))
+            ]
+            ),
+    ],
+    fluid=True
+    )
+
+# app_layout = html.Div(
+
+#     children = [
+#         dbc.Row(children = [
+#             dbc.Col(title),
+#             dbc.Col(tabs)
+#         ]
+#         ),
+#         dbc.Row(children = [html.Div(id='tabs-content')]),
+#         dcc.Store(id='store')
+#         ]
+# )
 
