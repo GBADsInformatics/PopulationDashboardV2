@@ -52,7 +52,12 @@ graph = dcc.Graph(id = 'graph1', config = layout.plot_config)
 
 content = dbc.Row(
     [
-        dbc.Col(layout.sidebar, width=3),
-        dbc.Col(graph, width=9)
-    ]
+        dbc.Col(layout.sidebar, 
+                xs=dict(order=1, size=12),
+                sm=dict(order=1, size=3)
+                ),
+        dbc.Col(graph,
+                xs=dict(order=2, size=12),
+                sm=dict(order=2, size='auto'))
+    ], className='root-container'
 )

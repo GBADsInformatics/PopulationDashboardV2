@@ -22,7 +22,12 @@ table = html.Div([
 
 content = dbc.Row(
     [
-        dbc.Col(layout.sidebar_download, width=3),
-        dbc.Col(table, width=9)
-    ]
+        dbc.Col(layout.sidebar_download, 
+                xs=dict(order=1, size=12),
+                sm=dict(order=1, size=3)
+                ),
+        dbc.Col(table,
+                xs=dict(order=2, size=12),
+                sm=dict(order=2, size='auto'))
+    ], className='root-container'
 )
