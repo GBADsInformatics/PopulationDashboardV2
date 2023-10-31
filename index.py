@@ -242,8 +242,6 @@ def update_map(data, species, year):
     merged_df = df.loc[df['year'] == year]
     merged_df = merged_df.loc[merged_df['species'] == species]
 
-    print(merged_df)
-
     fig = map_tab.create_map(merged_df, data, species, year)
 
     return(fig)
