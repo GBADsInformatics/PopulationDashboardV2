@@ -1,0 +1,8 @@
+.nav-link{
+    padding: 0.75rem 0.75rem;
+}
+
+.nav-link-active {
+    color:#FFA500;
+    padding: 0.75rem 0.75rem;
+}

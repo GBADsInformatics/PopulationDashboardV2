@@ -177,12 +177,12 @@ tabs = html.Div([
     
         dbc.Tabs(
             [
-                dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
+                dbc.Tab(label="Graph", activeTabClassName = "nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label="Map", activeTabClassName="nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label='Download Data', activeTabClassName="nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label='Metadata', activeTabClassName="nav-link-active", tabClassName="nav-link")
             ],
-        id='tabs', style={"padding": "1rem 1rem", "position":"fixed"})
+        id='tabs')
 ]
 )
 
