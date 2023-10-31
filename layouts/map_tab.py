@@ -24,7 +24,7 @@ def create_map(merged_df, dataset, species, year):
     title = 'Population of %s in %s by Country <br><sup>Datasource: %s</sup>' % (species, year, dataset)
 
     fig = px.choropleth(merged_df, 
-        locations='ISO3',
+        locations='iso3',
         color='population',
         range_color=(0,max_val),
         hover_data=['country', 'population'],
