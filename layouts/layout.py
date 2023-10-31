@@ -175,8 +175,6 @@ title = html.Div(
 
 tabs = html.Div([
     
-    html.H1(" "),
-    html.H2(" "),
         dbc.Tabs(
             [
                 dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
