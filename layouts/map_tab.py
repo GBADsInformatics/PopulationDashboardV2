@@ -1,14 +1,13 @@
 import dash
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import html, dash_table
 import pandas as pd
 from dash import dcc
 import plotly.express as px
 import numpy as np
 from dash.dependencies import Input,Output
 from dash_bootstrap_templates import load_figure_template
-from dash import dash_table
-from layouts import styling 
+from layouts import layout
 import json
 
 # Potentially switch this to leaflet https://dash-leaflet.herokuapp.com/
@@ -46,13 +45,11 @@ def create_map(merged_df, dataset, species, year):
 
     return(fig)
 
-map = dcc.Graph(id = 'map', config = styling.plot_config)
+map = dcc.Graph(id = 'map', config = layout.plot_config)
 
-content = dbc.Row(children=
-            [
-            styling.sidebar_map,
-            dcc.Loading(id = "loading-icon", 
-                children=[
-                dbc.Col(map)])
-            ], style = styling.CONTENT_STYLE_GRAPHS
-        )
+content = dbc.Row(
+    [
+        dbc.Col(layout.sidebar_map, width=3),
+        dbc.Col(map, width=9)
+    ]
+)
