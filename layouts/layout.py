@@ -11,7 +11,7 @@ from app import app
 
 load_figure_template('LUX')
 
-GBADSLOGOB = "../assets/GBADsLogo.png"
+GBADSLOGOB = "./assets/GBADsLogo.png"
 
 ACTIVE_TAB_STYLE = {
     "color": "#FFA500"
