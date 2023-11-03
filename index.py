@@ -217,7 +217,6 @@ def update_table(data, country, species, start, end):
 # Update year option on map tab
 @app.callback(
     Output('species-map','options'),
-    Output('country-map','options'),
     Output('year-map','options'),
     Input('dataset','value'),
 )
@@ -225,30 +224,23 @@ def update_species_map(data):
 
     df = get_df(data)
     
-    country = df['country'].unique()
     species = df['species'].unique()
     df = df.sort_values(by=['year'])
     year = df['year'].unique()
 
-    return(species, country, year)
+    return(species, year)
 
 @app.callback(
     Output('map','figure'),
     Input('dataset','value'),
     Input('species-map','value'),
-    Input('country-map','value'),
     Input('year-map', 'value'),
     )
-def update_map(data, species, countries, year):
+def update_map(data, species, year):
 
     df = get_df(data)
     merged_df = df.loc[df['year'] == year]
     merged_df = merged_df.loc[merged_df['species'] == species]
-
-    if type(countries) == str:
-        merged_df = merged_df.loc[merged_df['country'] == countries]
-    else: 
-        merged_df = merged_df.loc[merged_df['country'].isin(countries)]
 
     fig = map_tab.create_map(merged_df, data, species, year)
 
