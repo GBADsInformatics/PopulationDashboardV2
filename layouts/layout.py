@@ -87,7 +87,7 @@ sidebar_download = html.Div(
                 dcc.Dropdown(id = 'dataset', value='faostat', persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Country:"),
-                dcc.Dropdown(id = 'country', value = 'Canada', persistence_type='session', persistence=True),
+                dcc.Dropdown(id = 'country', value = 'Ethiopia', persistence_type='session', persistence=True),
                 html.H6(" "),
                 html.H6("Species:"),
                 dcc.Dropdown(id = 'species', value = ['Cattle'], persistence_type='session', persistence=True),
