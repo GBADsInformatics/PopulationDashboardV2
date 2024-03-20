@@ -1,9 +1,9 @@
 import os
 import dash
 import plotly
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_table
+from dash import dcc
+from dash import html
+from dash import dash_table
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -331,7 +331,6 @@ def update_table(data, country, species, start, end):
 # Update year option on map tab
 @app.callback(
     Output('species-map','options'),
-    Output('country-map','options'),
     Output('year-map','options'),
     Input('dataset','value'),
 )
@@ -339,30 +338,23 @@ def update_species_map(data):
 
     df = get_df(data)
     
-    country = df['country'].unique()
     species = df['species'].unique()
     df = df.sort_values(by=['year'])
     year = df['year'].unique()
 
-    return(species, country, year)
+    return(species, year)
 
 @app.callback(
     Output('map','figure'),
     Input('dataset','value'),
     Input('species-map','value'),
-    Input('country-map','value'),
     Input('year-map', 'value'),
     )
-def update_map(data, species, countries, year):
+def update_map(data, species, year):
 
     df = get_df(data)
     merged_df = df.loc[df['year'] == year]
     merged_df = merged_df.loc[merged_df['species'] == species]
-
-    if type(countries) == str:
-        merged_df = merged_df.loc[merged_df['country'] == countries]
-    else: 
-        merged_df = merged_df.loc[merged_df['country'].isin(countries)]
 
     fig = map_tab.create_map(merged_df, data, species, year)
 
@@ -377,19 +369,19 @@ def returnApp():
     """
     This function is used to create the app and return it to waitress in the docker container
     """
-    # If DASH_BASE_URL is set, use DispatcherMiddleware to serve the app from that path
-    if 'DASH_BASE_URL' in os.environ:
+    # If BASE_URL is set, use DispatcherMiddleware to serve the app from that path
+    if 'BASE_URL' in os.environ:
         from flask import Flask
         from werkzeug.middleware.dispatcher import DispatcherMiddleware
         app.wsgi_app = DispatcherMiddleware(Flask('dummy_app'), {
-            os.environ['DASH_BASE_URL']: app.server
+            os.environ['BASE_URL']: app.server
         })
         # Added redirect to new path
         @app.wsgi_app.app.route('/')
         def redirect_to_dashboard():
             from flask import redirect
-            return redirect(os.environ['DASH_BASE_URL'])
+            return redirect(os.environ['BASE_URL'])
         return app.wsgi_app
 
-    # If no DASH_BASE_URL is set, just return the app server
+    # If no BASE_URL is set, just return the app server
     return app.server

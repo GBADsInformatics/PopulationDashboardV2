@@ -1,14 +1,14 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
+from dash import html
 import pandas as pd
-import dash_core_components as dcc
+from dash import dcc
 import plotly.express as px
 import numpy as np
 from dash.dependencies import Input,Output
 from dash_bootstrap_templates import load_figure_template
 from dash import dash_table
-from layouts import styling, comments_section
+from layouts import layout, comments_section
 
 def create_bar_plot(df, country, species):
 
@@ -48,17 +48,17 @@ def create_scatter_plot(df, country, species):
     
     return(fig)
 
-graph = dcc.Graph(id = 'graph1', config = styling.plot_config)
+graph = dcc.Graph(id = 'graph1', config = layout.plot_config)
 
-content = dbc.Row(children=
-            [
-            dbc.Col(styling.sidebar),
-            dcc.Loading(id = 'loading-icon',
-                        children=[
-                        dbc.Col([graph, comments_section.comment_area])
-                        ]
-                        )
-            ],
-            style=styling.CONTENT_STYLE_GRAPHS
-        )
-
+content = dbc.Row(
+    [
+        dbc.Col(layout.sidebar, 
+                xs=dict(order=1, size=12),
+                sm=dict(order=1, size=3)
+                ),
+        dbc.Col(
+            [graph, comments_section.comment_area],
+                xs=dict(order=2, size=12),
+                sm=dict(order=2, size='auto'))
+    ], className='root-container'
+)

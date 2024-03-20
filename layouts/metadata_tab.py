@@ -1,8 +1,8 @@
 import dash_bootstrap_components as dbc
 from dash import html
-import dash_core_components as dcc
+from dash import dcc
 from dash import dash_table
-from layouts.styling import SIDEBAR_STYLE, CONTENT_STYLE_TABLES
+from layouts import layout
 import pandas as pd
 
 def get_metadata_df(choice): 
@@ -37,27 +37,14 @@ table = html.Div([
             }
 )])
 
-sidebar_metadata = html.Div(
-    [
-        html.H4("Options"),
-        html.Hr(),
-        dbc.Nav(
-            [  
-                html.H6("Dataset:"),
-                dcc.Dropdown(id = 'dataset',value ='faostat', persistence=True, persistence_type='session'),
-                html.H6(" ")
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    id = "sidebar-metadata",
-    style=SIDEBAR_STYLE,
-)
-
 metadata_content = dbc.Row(
-            [
-            sidebar_metadata,
-            dbc.Col(table, style = CONTENT_STYLE_TABLES)
-            ]
+    [
+        dbc.Col(layout.sidebar_metadata, 
+                xs=dict(order=1, size=12),
+                sm=dict(order=1, size=3)
+                ),
+        dbc.Col(table,
+                xs=dict(order=2, size=12),
+                sm=dict(order=2, size='auto'))
+    ], className='root-container'
 )

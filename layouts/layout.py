@@ -1,8 +1,8 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
+from dash import html
 import pandas as pd
-import dash_core_components as dcc
+from dash import dcc
 import plotly.express as px
 import numpy as np
 from dash.dependencies import Input,Output
@@ -11,18 +11,7 @@ from app import app
 
 load_figure_template('LUX')
 
-GBADSLOGOB = "https://i0.wp.com/animalhealthmetrics.org/wp-content/uploads/2019/10/GBADs-LOGO-Black-sm.png"
-
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": "8rem",
-    "left": 0,
-    "bottom": "2rem",
-    "width": "24rem",
-    "padding": "2rem 2rem 2rem",
-    "background-color": "#f8f9fa",
-    "overflow": "scroll"
-}
+GBADSLOGOB = "./assets/GBADsLogo.png"
 
 ACTIVE_TAB_STYLE = {
     "color": "#FFA500"
@@ -37,43 +26,178 @@ CONTENT_STYLE = {
     "overflow": "scroll"
 }
 
+CONTENT_STYLE_GRAPHS = {
+    "top":"8rem",
+    "margin-left": "20rem",
+    "margin-right": "7rem",
+    "bottom": "2rem",
+    "padding": "5rem 2rem 2rem",
+    "position": "fixed"
+}
+
+CONTENT_STYLE_TABLES = {
+    "top":"8rem",
+    "margin-left": "20rem",
+    "margin-right": "7rem",
+    "bottom": "2rem",
+    "padding": "5rem 2rem 2rem",
+    "overflow": "scroll",
+    "position": "fixed"
+}
+
+plot_config = {'displayModeBar': True,
+          'displaylogo': False}
+
 ###-------------Components------------------------------------
 
+sidebar_metadata = html.Div(
+        [
+        dbc.Row(
+            [
+                html.H4('Options', className="sidebar"),
+            ],
+            style={"height": "5vh"}
+            ),
+        dbc.Row(
+            [  
+                html.H6("Dataset:"),
+                dcc.Dropdown(id = 'dataset',value ='faostat', persistence=True, persistence_type='session'),
+                html.H6(" ")
+            ], className="sidebar"
+        ),
+    ]
+)
 
-title = html.Div([
+sidebar_download = html.Div(
+    [
+        dbc.Row(
+            [
+                html.H4('Options', className="sidebar"),
+            ],
+            style={"height": "5vh"}
+            ),
+        dbc.Row(
+            [
+                html.H6("Select multiple:", id='choice-title'),
+                dcc.RadioItems(
+                ['Species', 'Countries'], 'Species', inline=True, id='choice', persistence_type='session', persistence=True
+                ),
+                html.H6(" "),
+                html.H6("Dataset:"),
+                dcc.Dropdown(id = 'dataset', value='faostat', persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("Country:"),
+                dcc.Dropdown(id = 'country', value = 'Ethiopia', persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("Species:"),
+                dcc.Dropdown(id = 'species', value = ['Cattle'], persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("Start year:"),
+                dcc.Dropdown(id = 'start year', value = 1996, persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("End year:"),
+                dcc.Dropdown(id = 'end year', value = 2020, persistence_type='session', persistence=True)
+                ], className="sidebar"
+            )
+    ]
+)
+
+sidebar = html.Div(
+    [
+        dbc.Row(
+            [
+                html.H4('Options', className="sidebar"),
+            ],
+            style={"height": "5vh"}
+            ),
+        dbc.Row(
+            [
+                    html.H6("Select multiple:", id='choice-title'),
+                    dcc.RadioItems(
+                    ['Species', 'Countries'], 'Species', inline=True, id='choice', persistence_type='session',persistence=True
+                    ),
+                    html.H6(" "),
+                    html.H6("Dataset:"),
+                    dcc.Dropdown(id = 'dataset', value='faostat', persistence_type='session', persistence=True),
+                    html.H6(" "),
+                    html.H6("Country:"),
+                    dcc.Dropdown(id = 'country', value = 'Ethiopia', persistence_type='session', persistence=True),
+                    html.H6(" "),
+                    html.H6("Species:"),
+                    dcc.Dropdown(id = 'species', value = ['Cattle'],persistence_type='session', persistence=True),
+                    html.H6(" "),
+                    html.H6("Start year:"),
+                    dcc.Dropdown(id = 'start year', value = 1996, persistence_type='session', persistence=True),
+                    html.H6(" "),
+                    html.H6("End year:"),
+                    dcc.Dropdown(id = 'end year', value = 2020, persistence_type='session', persistence=True),
+                    html.H6(" "),
+                    html.H6("Graph type:"),
+                    dcc.Dropdown(id = 'plot', value = 'stacked bar', options = ['stacked bar','scatter line'], persistence_type='session', persistence=True),
+                ], className="sidebar"
+            )
+    ]
+)
+
+sidebar_map = html.Div(
+    [
+        dbc.Row(
+            [
+                html.H4('Options', className="sidebar"),
+            ],
+            style={"height": "5vh"}
+            ),
+        dbc.Row(
+            [
+                html.H6(" "),
+                html.H6("Dataset:"),
+                dcc.Dropdown(id = 'dataset', value = 'faostat', persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("Species:"),
+                dcc.Dropdown(id = 'species-map', value = 'Cattle', multi=False,persistence_type='session', persistence=True),
+                html.H6(" "),
+                html.H6("Year:"),
+                dcc.Dropdown(id = 'year-map', value = 1990,persistence_type='session', persistence=True),
+                ], className="sidebar"
+            )
+    ]
+)
+
+title = html.Div(
+                [
                     html.Img(src=GBADSLOGOB, className="header-logo"),
-                    html.H2('Livestock Population')
-                ],
-                style={"padding": "1rem 1rem", "position":"fixed"}
+                    html.H1('Livestock Population')
+                ]
                 )
 
 tabs = html.Div([
     
-    html.H1(" "),
-    html.H2(" "),
         dbc.Tabs(
             [
-                dbc.Tab(label="Graph", active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label="Map",active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label='Download Data', active_label_style=ACTIVE_TAB_STYLE),
-                dbc.Tab(label='Metadata', active_label_style=ACTIVE_TAB_STYLE)
+                dbc.Tab(label="Graph", activeTabClassName = "nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label="Map", activeTabClassName="nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label='Download Data', activeTabClassName="nav-link-active", tabClassName="nav-link"),
+                dbc.Tab(label='Metadata', activeTabClassName="nav-link-active", tabClassName="nav-link")
             ],
-        id='tabs', style={"padding": "1rem 1rem", "position":"fixed"})
+        id='tabs')
 ]
 )
 
 ###--------------Build the layout------------------------------------
 
-app_layout = html.Div(
-
-    children = [
-        dbc.Row(children = [
-            dbc.Col(title),
-            dbc.Col(tabs)
-        ]
+app_layout = dbc.Container(
+    [
+        dbc.Row(
+            [
+                dbc.Col(title, width=6),
+                dbc.Col(tabs, width='auto')
+            ]
         ),
-        dbc.Row(children = [html.Div(id='tabs-content')]),
-        dcc.Store(id='store')
-        ]
-)
-
+        dbc.Row(
+            [
+                dbc.Col(html.Div(id='tabs-content'))
+            ]
+            ),
+    ],
+    fluid=True
+    )
