@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import json
 from dash.exceptions import PreventUpdate
-import datetime
+from datetime import datetime
 from utils import newS3TicketLib as s3f
 from utils import secure_rds as secure
 from utils import rds_functions as rds
