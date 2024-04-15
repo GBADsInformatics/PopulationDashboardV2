@@ -5,15 +5,35 @@ on:
   workflow_dispatch:
   
 jobs:
+  commit-hash:
+    name: Commit SHA
+    runs-on: ubuntu-latest
+    outputs:
+      sha7: ${{ steps.commit-hash.outputs.sha7 }}
+    steps:
+      - name: Get Commit SHA
+        id: commit-hash
+        run: echo "sha7=$(echo ${GITHUB_SHA} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
   docker:
-    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/docker.yml@main
+    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/docker.yml@v2.0
     secrets: inherit
     with:
       IMAGE_NAME: population-dash
 
   aws:
-    needs: docker
-    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/aws.yml@main
-    secrets: inherit
+    needs: [commit-hash, docker]
+    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/aws.yml@v2.0
+    secrets:
+      template-input: >-
+        ApplicationName=population-dash,
+        DockerURI=gbadsinformatics/population-dash:${{ needs.commit-hash.outputs.sha7 }},
+        BaseURL=/dashboards/population,
+        ListenerRulePriority=10,
+        MajorInfo1=${{ secrets.MAJOR_INFO1 }},
+        MajorInfo2=${{ secrets.MAJOR_INFO2 }},
+        MajorKey=${{ secrets.MAJOR_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     with:
-      SERVICE_NAME: population-dash-service
+      stack-name: population-dash-stack
