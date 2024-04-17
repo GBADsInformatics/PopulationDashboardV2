@@ -22,7 +22,7 @@ The purpose of this dashboard is to visualize livestock population data from:
 ├─index.py
 ├─utils/
 │ ├─get_data.py
-│ ├─newS3TicketLib.py.py
+│ ├─newS3TicketLib.py
 │ ├─rds_functions.py
 │ ├─secure_rds.py
 │ └─api_helpers.py
@@ -33,6 +33,7 @@ The purpose of this dashboard is to visualize livestock population data from:
 │ ├─layout.py
 │ ├─styling.py
 │ ├─data_tab.py
+│ ├─comments_section.py
 │ ├─graph_helpers.py
 │ └─graph_tab.py
 ├─app.py
