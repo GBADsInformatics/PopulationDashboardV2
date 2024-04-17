@@ -22,6 +22,9 @@ The purpose of this dashboard is to visualize livestock population data from:
 ├─index.py
 ├─utils/
 │ ├─get_data.py
+│ ├─newS3TicketLib.py.py
+│ ├─rds_functions.py
+│ ├─secure_rds.py
 │ └─api_helpers.py
 ├─README.md
 ├─layouts/
