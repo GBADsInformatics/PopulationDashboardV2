@@ -4,10 +4,13 @@ FROM python:3.10-slim-bookworm
 # Specify root directory in image
 WORKDIR /app/dash
 
-# Install needed packages
-RUN apt update && \
- apt install -y gcc musl-dev postgresql python-psycopg2 libpq-dev && \
- rm -rf /var/lib/apt/lists/*
+# Install needed packages (Debian names)
+# - musl-dev is an Alpine package; use build-essential on Debian
+# - python-psycopg2 is not a Debian package name; use libpq-dev + python3-dev
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends \
+		gcc build-essential libpq-dev python3-dev postgresql-client && \
+	rm -rf /var/lib/apt/lists/*
 
 # Installing python requirements
 COPY requirements.txt .
